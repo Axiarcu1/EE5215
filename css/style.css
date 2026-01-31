@@ -128,31 +128,29 @@ p {
     width: 1280px;
     height: 720px;
     background: #0f172a;
-    /* Solid background for list view (fastest) */
     border: 1px solid var(--glass-border);
     border-radius: 24px;
     padding: 3rem 4rem;
     position: relative;
     overflow: hidden;
-    /* Important for performance */
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
     flex-shrink: 0;
 
-    /* VERY IMPORTANT FOR PERFORMANCE - Scopes rendering */
+    /* PERFORMANCE: Hide off-screen slides completely */
     content-visibility: auto;
     contain-intrinsic-size: 1280px 720px;
+    contain: layout style paint;
 
-    will-change: transform;
-    transition: transform 0.2s ease;
+    /* GPU acceleration */
+    transform: translateZ(0);
+    backface-visibility: hidden;
 }
 
-/* Enable features ONLY when active or in presentation mode */
+/* Active slide in presentation mode - NO backdrop-filter for performance */
 .presentation-mode .slide-container.active {
-    background: rgba(15, 23, 42, 0.7);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
+    background: #0f172a;
     content-visibility: visible;
-    /* Always visible when active */
+    contain: none;
 }
 
 /* Presentation Mode */
@@ -311,16 +309,18 @@ p {
     display: block;
 }
 
-/* ANIMATIONS */
+/* ANIMATIONS - Optimized for performance */
 .fragment {
     opacity: 0;
     transform: translateY(20px);
-    transition: all 0.5s ease;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    will-change: opacity, transform;
 }
 
 .fragment.visible {
     opacity: 1;
     transform: translateY(0);
+    will-change: auto;
 }
 
 /* UTILS */

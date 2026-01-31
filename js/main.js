@@ -1,9 +1,10 @@
-// Main Logic
+// Main Logic - Performance Optimized
 
 const state = {
     currentSlide: 0,
     totalSlides: 0,
     isPresentationMode: false,
+    resizeTimeout: null,
     sections: [
         'sections/cover.html',
         'sections/section1.html',
@@ -22,71 +23,79 @@ document.addEventListener('DOMContentLoaded', async () => {
     handleResize();
 });
 
-// Load all HTML fragments
+// Load all HTML fragments with performance optimization
 async function loadSections() {
     const container = document.getElementById('slides-container');
 
-    for (const url of state.sections) {
-        try {
-            const resp = await fetch(url);
-            if (!resp.ok) throw new Error(`Failed to load ${url}`);
+    // Use DocumentFragment for batch DOM insertion
+    const fragment = document.createDocumentFragment();
+    const tempDiv = document.createElement('div');
 
-            let html = await resp.text();
-            // Basic cleanup of old paths if needed
+    // Load all sections in parallel for faster loading
+    const promises = state.sections.map(url =>
+        fetch(url).then(resp => resp.ok ? resp.text() : '')
+    );
+
+    const htmlContents = await Promise.all(promises);
+
+    htmlContents.forEach(html => {
+        if (html) {
             html = html.replace(/\.\.\/assets\//g, 'assets/');
-
-            container.insertAdjacentHTML('beforeend', html);
-        } catch (err) {
-            console.error(err);
+            tempDiv.innerHTML = html;
+            while (tempDiv.firstChild) {
+                fragment.appendChild(tempDiv.firstChild);
+            }
         }
-    }
+    });
+
+    // Single DOM insertion
+    container.appendChild(fragment);
 
     // Count slides
     const slides = document.querySelectorAll('.slide-container');
     state.totalSlides = slides.length;
 
-    // Mark first as active (visually only relevant in presentation mode)
+    // Mark first as active
     if (slides.length > 0) slides[0].classList.add('active');
 }
 
 // Navigation & Controls
 function initControls() {
-    // Buttons
     document.getElementById('prev-arrow').onclick = prevSlide;
     document.getElementById('next-arrow').onclick = nextSlide;
-
     document.getElementById('btn-present').onclick = togglePresentation;
     document.getElementById('btn-fullscreen').onclick = toggleFullscreen;
 
-    // Keyboard
-    document.addEventListener('keydown', (e) => {
-        if (!state.isPresentationMode) return;
+    // Keyboard - use passive listener for performance
+    document.addEventListener('keydown', handleKeydown, { passive: false });
 
-        switch (e.key) {
-            case 'ArrowRight':
-            case 'ArrowDown':
-            case 'Space':
-            case ' ':
-                e.preventDefault();
-                nextSlide();
-                break;
-            case 'ArrowLeft':
-            case 'ArrowUp':
-                e.preventDefault();
-                prevSlide();
-                break;
-            case 'f':
-            case 'F':
-                toggleFullscreen();
-                break;
-            case 'Escape':
-                if (state.isPresentationMode) togglePresentation();
-                break;
-        }
-    });
+    // Debounced resize handler
+    window.addEventListener('resize', debouncedResize, { passive: true });
+}
 
-    // Presentation mode specifics
-    window.addEventListener('resize', handleResize);
+function handleKeydown(e) {
+    if (!state.isPresentationMode) return;
+
+    switch (e.key) {
+        case 'ArrowRight':
+        case 'ArrowDown':
+        case ' ':
+            e.preventDefault();
+            nextSlide();
+            break;
+        case 'ArrowLeft':
+        case 'ArrowUp':
+            e.preventDefault();
+            prevSlide();
+            break;
+        case 'f':
+        case 'F':
+            toggleFullscreen();
+            break;
+        case 'Escape':
+            if (state.isPresentationMode) togglePresentation();
+            break;
+    }
 }
 
 function nextSlide() {
@@ -103,27 +112,34 @@ function prevSlide() {
 
 function setSlide(index) {
     state.currentSlide = index;
-    updateCounter();
 
-    const slides = document.querySelectorAll('.slide-container');
+    // Use requestAnimationFrame for smoother updates
+    requestAnimationFrame(() => {
+        updateCounter();
 
-    slides.forEach((slide, i) => {
-        slide.classList.toggle('active', i === index);
+        const slides = document.querySelectorAll('.slide-container');
 
-        // Reset fragments
-        if (i !== index) {
-            slide.querySelectorAll('.fragment').forEach(f => f.classList.remove('visible'));
+        slides.forEach((slide, i) => {
+            const isActive = i === index;
+            slide.classList.toggle('active', isActive);
+
+            // Reset fragments on inactive slides
+            if (!isActive) {
+                slide.querySelectorAll('.fragment.visible').forEach(f =>
+                    f.classList.remove('visible')
+                );
+            }
+        });
+
+        if (state.isPresentationMode) {
+            triggerAnimations(slides[index]);
         }
     });
-
-    if (state.isPresentationMode) {
-        triggerAnimations(slides[index]);
-    }
 }
 
 function updateCounter() {
     const el = document.getElementById('slide-counter');
-    el.innerText = `${state.currentSlide + 1} / ${state.totalSlides}`;
+    el.textContent = `${state.currentSlide + 1} / ${state.totalSlides}`;
 }
 
 function togglePresentation() {
@@ -133,12 +149,11 @@ function togglePresentation() {
     const btnIcon = document.querySelector('#btn-present i');
     if (state.isPresentationMode) {
         btnIcon.classList.replace('fa-play', 'fa-stop');
-        handleResize(); // Calc scale
-        setSlide(state.currentSlide); // Refresh view
+        handleResize();
+        setSlide(state.currentSlide);
 
-        // Try fullscreen
         if (!document.fullscreenElement) {
-            document.documentElement.requestFullscreen().catch(e => { });
+            document.documentElement.requestFullscreen().catch(() => { });
         }
     } else {
         btnIcon.classList.replace('fa-stop', 'fa-play');
@@ -153,24 +168,30 @@ function toggleFullscreen() {
     }
 }
 
+// Debounced resize for performance
+function debouncedResize() {
+    if (state.resizeTimeout) {
+        cancelAnimationFrame(state.resizeTimeout);
+    }
+    state.resizeTimeout = requestAnimationFrame(handleResize);
+}
+
 function handleResize() {
     if (!state.isPresentationMode) return;
 
-    // Scale slides to fit viewport
-    // Default slide size: 1280 x 720
     const w = window.innerWidth;
     const h = window.innerHeight;
-
     const scale = Math.min(w / 1280, h / 720);
     document.documentElement.style.setProperty('--slide-scale', scale);
 }
 
 function triggerAnimations(slide) {
-    // Simple stagger for .fragment items
-    const fragments = slide.querySelectorAll('.fragment');
+    const fragments = slide.querySelectorAll('.fragment:not(.visible)');
+
+    // Faster animation timing (100ms instead of 200ms)
     fragments.forEach((f, i) => {
         setTimeout(() => {
-            f.classList.add('visible');
-        }, i * 200 + 300);
+            requestAnimationFrame(() => f.classList.add('visible'));
+        }, i * 100 + 150);
     });
 }
