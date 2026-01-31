@@ -1,0 +1,158 @@
+<!-- SLIDE 31: COMPARISON TABLE -->
+<div class="slide-container">
+    <h2 class="slide-title">Slide 31: So sánh Trực diện</h2>
+    <div class="tile" style="padding: 0;">
+        <table style="width: 100%; border-collapse: collapse;">
+            <thead>
+                <tr style="background: rgba(255,255,255,0.05);">
+                    <th style="padding: 1.5rem;">Đặc điểm</th>
+                    <th style="padding: 1.5rem; color: var(--accent-blue);">Advanced Multicore (Abdallah)</th>
+                    <th style="padding: 1.5rem; color: var(--accent-violet);">MPSoC (Jerraya)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="fragment">
+                    <td style="padding: 1rem; border-bottom: 1px solid rgba(255,255,255,0.1);"><b>Kiến trúc</b></td>
+                    <td style="padding: 1rem; border-bottom: 1px solid rgba(255,255,255,0.1);">Tập trung vào
+                        <b>Scalability</b> (Many-core). Thường đồng nhất (Homogeneous).</td>
+                    <td style="padding: 1rem; border-bottom: 1px solid rgba(255,255,255,0.1);">Tập trung vào
+                        <b>Specificity</b> (Dị bản). Heterogeneous (CPU + Accel).</td>
+                </tr>
+                <tr class="fragment">
+                    <td style="padding: 1rem; border-bottom: 1px solid rgba(255,255,255,0.1);"><b>Interconnect</b></td>
+                    <td style="padding: 1rem; border-bottom: 1px solid rgba(255,255,255,0.1);">Network-on-Chip (NoC) là
+                        bắt buộc.</td>
+                    <td style="padding: 1rem; border-bottom: 1px solid rgba(255,255,255,0.1);">Bus, Crossbar, hoặc
+                        Custom Links (tùy ứng dụng).</td>
+                </tr>
+                <tr class="fragment">
+                    <td style="padding: 1rem; border-bottom: 1px solid rgba(255,255,255,0.1);"><b>Bộ nhớ</b></td>
+                    <td style="padding: 1rem; border-bottom: 1px solid rgba(255,255,255,0.1);">Shared Memory (SMP).
+                        Cache Coherence quan trọng.</td>
+                    <td style="padding: 1rem; border-bottom: 1px solid rgba(255,255,255,0.1);">Distributed hoặc Hybrid.
+                        Dùng Message Passing.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- SLIDE 32: PERF VS POWER -->
+<div class="slide-container">
+    <h2 class="slide-title">Slide 32: Hiệu năng & Năng lượng</h2>
+    <div class="grid-2">
+        <div class="tile fragment">
+            <h3>Hiệu năng (Performance)</h3>
+            <p>MPSoC thường có hiệu năng cao hơn trên một tác vụ cụ thể nhờ Hardware Accelerator.</p>
+            <p class="mt-2 text-accent">VD: Giải mã video H.265 bằng ASIC nhanh gấp 100 lần CPU.</p>
+        </div>
+        <div class="tile fragment">
+            <h3>Năng lượng (Energy)</h3>
+            <p>Multicore tốn năng lượng hơn do Overhead của việc duy trì Cache Coherence và các Core đa dụng.</p>
+            <p class="mt-2 text-accent">MPSoC tối ưu từng micro-watt (Power Gating từng module).</p>
+        </div>
+    </div>
+    <div class="mt-4 tile fragment text-center">
+        <b>Quy luật Amdahl:</b> Hiệu năng bị giới hạn bởi phần tuần tự của chương trình. MPSoC giảm phần tuần tự bằng
+        cách chuyên biệt hóa.
+    </div>
+</div>
+
+<!-- SLIDE 33: PROGRAMMING COMPLEXITY -->
+<div class="slide-container">
+    <h2 class="slide-title">Slide 33: Độ phức tạp lập trình</h2>
+    <div class="grid-2">
+        <div class="tile fragment" style="border-color: #10b981;">
+            <h3>Multicore (Dễ hơn)</h3>
+            <p>Lập trình viên nhìn thấy "Một siêu máy tính".</p>
+            <p>OS (Linux/Windows) tự lo việc phân chia tải.</p>
+            <p>Dùng Pthreads, OpenMP.</p>
+        </div>
+        <div class="tile fragment" style="border-color: #f59e0b;">
+            <h3>MPSoC (Rất khó)</h3>
+            <p>Lập trình viên nhìn thấy "Nhiều máy tính nhỏ".</p>
+            <p>Phải tự tay quyết định Task nào chạy ở đâu (Mapping).</p>
+            <p>Phải quản lý giao tiếp mức thấp (Mailbox, DMA).</p>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 34: CONVERGENCE -->
+<div class="slide-container">
+    <h2 class="slide-title">Slide 34: Sự hội tụ <span>(Convergence)</span></h2>
+    <div class="tile fragment text-center mb-4">
+        <p>Ranh giới đang mờ dần. Các SoC hiện đại (Modern SoC) là sự kết hợp của cả hai.</p>
+    </div>
+    <div class="grid-2">
+        <div class="tile fragment flex-center flex-col">
+            <h4 class="text-accent mb-2">Heterogeneous NoC</h4>
+            <p>Dùng kiến trúc NoC của Multicore để kết nối các IP dị bản của MPSoC.</p>
+        </div>
+        <div class="tile fragment flex-center flex-col">
+            <h4 class="text-accent mb-2">Software-Defind SoC</h4>
+            <p>Phần cứng linh hoạt (như FPGA tích hợp) cho phép thay đổi cấu trúc MPSoC sau khi sản xuất.</p>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 35: AI-SOC -->
+<div class="slide-container">
+    <h2 class="slide-title">Slide 35: Xu hướng AI-SoC</h2>
+    <div class="grid-2">
+        <div class="tile fragment">
+            <h3>NPU (Neural Processing Unit)</h3>
+            <p>Thành phần không thể thiếu trong SoC hiện đại.</p>
+            <p>Tối ưu hóa phép nhân ma trận (Matrix Multiplication) cho Deep Learning.</p>
+        </div>
+        <div class="tile fragment flex-center">
+            <div style="text-align: center;">
+                <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; margin-bottom: 10px;">
+                    <div style="background:var(--accent-blue); width:30px; height:30px;"></div>
+                    <div style="background:var(--accent-blue); width:30px; height:30px;"></div>
+                    <div style="background:var(--accent-blue); width:30px; height:30px;"></div>
+                    <div style="background:var(--accent-blue); width:30px; height:30px;"></div>
+                </div>
+                <p>Systolic Array Architecture</p>
+                <p class="text-accent">TensorOps / INT8</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 36: CHIPLETS -->
+<div class="slide-container">
+    <h2 class="slide-title">Slide 36: Chiplets & Heterogeneous Integration</h2>
+    <div class="grid-2">
+        <div class="tile fragment">
+            <h3>Chiplet là gì?</h3>
+            <p>Thay vì làm 1 chip SoC khổng lồ (Monolithic), ta ghép nhiều chip nhỏ (Chiplets) lại trong hẹ thống đóng
+                gói (Package).</p>
+        </div>
+        <div class="tile fragment">
+            <h3>Ưu điểm</h3>
+            <p><b>Mix & Match:</b> CPU 5nm + I/O 12nm (Tiết kiệm chi phí).</p>
+            <p><b>Yield:</b> Chip nhỏ ít lỗi hơn chip to.</p>
+            <p class="text-accent">Công nghệ đóng gói: CoWoS (TSMC), EMIB (Intel).</p>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 37: SECURITY -->
+<div class="slide-container">
+    <h2 class="slide-title">Slide 37: An ninh bảo mật SoC</h2>
+    <div class="grid-3">
+        <div class="tile fragment">
+            <h4>TEE</h4>
+            <p style="font-size: 0.9rem;">Trusted Execution Environment (ARM TrustZone). Vùng chạy an toàn cô lập.</p>
+        </div>
+        <div class="tile fragment">
+            <h4>PUF</h4>
+            <p style="font-size: 0.9rem;">Physical Unclonable Function. "Vân tay" vật lý của chip, dùng để sinh khóa.
+            </p>
+        </div>
+        <div class="tile fragment">
+            <h4>Side-channel Attack</h4>
+            <p style="font-size: 0.9rem;">Chống tấn công đo năng lượng/điện từ để đoán khóa mật mã.</p>
+        </div>
+    </div>
+</div>

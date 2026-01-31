@@ -1,0 +1,248 @@
+<!-- SLIDE 2: EVOLUTION -->
+<div class="slide-container">
+    <h2 class="slide-title">Slide 2: Sự tiến hóa của <span>Vi điện tử</span></h2>
+    <div class="grid-2">
+        <div class="tile fragment">
+            <h3><i class="fa-solid fa-clock-rotate-left"></i> Lịch sử phát triển</h3>
+            <ul style="margin-top: 1.5rem; display: flex; flex-direction: column; gap: 1rem;">
+                <li style="border-left: 3px solid var(--accent-blue); padding-left: 1rem;">
+                    <b>1970s - Discrete Components:</b> Các linh kiện rời rạc trên bo mạch (PCB). Tốn diện tích, công
+                    suất cao.
+                </li>
+                <li style="border-left: 3px solid var(--accent-violet); padding-left: 1rem;">
+                    <b>1980s - ASIC:</b> Tích hợp logic cụ thể vào một chip (Application Specific Integrated Circuit).
+                </li>
+                <li style="border-left: 3px solid #10b981; padding-left: 1rem;">
+                    <b>1990s - MCU/DSP:</b> Vi điều khiển tích hợp bộ nhớ và vài ngoại vi đơn giản.
+                </li>
+                <li style="border-left: 3px solid #f59e0b; padding-left: 1rem;">
+                    <b>2000s - SoC Era:</b> Tích hợp <b>toàn bộ hệ thống</b> (Computing, Memory, RF, Analog) lên
+                    silicon.
+                </li>
+            </ul>
+        </div>
+        <div class="tile fragment flex-center flex-col text-center">
+            <div style="font-size: 4rem; color: var(--text-primary);"><i class="fa-solid fa-microchip"></i></div>
+            <h3 class="mt-4">System-on-Board <br><i class="fa-solid fa-arrow-down text-accent my-2"></i><br>
+                System-on-Chip</h3>
+            <p style="opacity: 0.8;">Gom nhỏ kích thước từ 100cm² xuống < 1cm².</p>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 3: DEFINITION -->
+<div class="slide-container">
+    <h2 class="slide-title">Slide 3: Định nghĩa <span>System-on-Chip (SoC)</span></h2>
+    <div class="grid-2">
+        <div class="tile fragment">
+            <div
+                style="background: rgba(59, 130, 246, 0.1); padding: 2rem; border-radius: 1rem; border: 1px solid var(--accent-blue);">
+                <p style="font-size: 1.2rem; font-style: italic;">
+                    "SoC là một mạch tích hợp (IC) phức tạp, chứa đựng các mô-đun phần cứng (CPU, DSP, Memory,
+                    Interface) và phần mềm nhúng để thực hiện trọn vẹn chức năng của một hệ thống."
+                </p>
+                <p class="text-right mt-2 text-accent"><b>- Abderazek Ben Abdallah</b></p>
+            </div>
+            <p class="mt-4 fragment"><b><i class="fa-solid fa-key text-accent"></i> Key Concept:</b> Sự tích hợp
+                (Integration) và Đồng thiết kế (Co-design).</p>
+        </div>
+        <div class="tile fragment">
+            <h3>Thành phần cơ bản</h3>
+            <div class="grid-2 mt-4" style="gap: 1rem;">
+                <div class="p-3 text-center" style="background: rgba(255,255,255,0.05); border-radius: 8px;">
+                    <i class="fa-solid fa-brain text-accent"></i><br>Processing (Core)
+                </div>
+                <div class="p-3 text-center" style="background: rgba(255,255,255,0.05); border-radius: 8px;">
+                    <i class="fa-solid fa-memory text-accent"></i><br>Memory (SRAM/DRAM)
+                </div>
+                <div class="p-3 text-center" style="background: rgba(255,255,255,0.05); border-radius: 8px;">
+                    <i class="fa-solid fa-network-wired text-accent"></i><br>Interconnect
+                </div>
+                <div class="p-3 text-center" style="background: rgba(255,255,255,0.05); border-radius: 8px;">
+                    <i class="fa-brands fa-usb text-accent"></i><br>I/O & Peripherals
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 4: DRIVERS -->
+<div class="slide-container">
+    <h2 class="slide-title">Slide 4: Động lực thúc đẩy</h2>
+    <div class="grid-3">
+        <div class="tile fragment text-center">
+            <i class="fa-solid fa-arrow-trend-up text-accent" style="font-size: 3rem; margin-bottom: 1.5rem;"></i>
+            <h3>Định luật Moore</h3>
+            <p>Số transistor tăng gấp đôi mỗi 18-24 tháng. Chi phí trên mỗi transistor giảm mạnh, cho phép tích hợp
+                nhiều tính năng hơn.</p>
+        </div>
+        <div class="tile fragment text-center">
+            <i class="fa-solid fa-compress text-accent"
+                style="font-size: 3rem; margin-bottom: 1.5rem; color: var(--accent-violet);"></i>
+            <h3>Diện tích (Area)</h3>
+            <p>Thiết bị di động (Smartphone, IoT) yêu cầu mạch cực nhỏ gọn. SoC loại bỏ nhu cầu về các bo mạch PCB lớn.
+            </p>
+        </div>
+        <div class="tile fragment text-center">
+            <i class="fa-solid fa-bolt text-accent" style="font-size: 3rem; margin-bottom: 1.5rem; color: #10b981;"></i>
+            <h3>Năng lượng (Power)</h3>
+            <p>Giao tiếp on-chip tiêu tốn ít năng lượng hơn hàng nghìn lần so với giao tiếp off-chip (qua các chân I/O).
+            </p>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 5: TYPICAL ARCHITECTURE -->
+<div class="slide-container">
+    <h2 class="slide-title">Slide 5: Kiến trúc SoC điển hình</h2>
+    <div
+        style="position: relative; width: 100%; height: 500px; border: 2px solid var(--glass-border); border-radius: 20px; padding: 20px; background: rgba(0,0,0,0.2);">
+        <div style="position: absolute; top: 10px; left: 10px; font-weight: 800; opacity: 0.5;">SoC ARCHITECTURE</div>
+
+        <!-- BUS -->
+        <div class="fragment"
+            style="position: absolute; top: 50%; left: 5%; right: 5%; height: 40px; background: var(--text-primary); border-radius: 20px; display: flex; align-items: center; justify-content: center; color: #000; font-weight: 800; z-index: 2;">
+            SYSTEM BUS (AXI / AHB)</div>
+
+        <!-- MASTERS -->
+        <div class="fragment"
+            style="position: absolute; top: 20%; left: 10%; width: 15%; height: 25%; background: var(--accent-blue); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-weight: 700;">
+            CPU<br>(ARM/RISC-V)</div>
+        <div class="fragment"
+            style="position: absolute; top: 20%; left: 30%; width: 15%; height: 25%; background: var(--accent-violet); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-weight: 700;">
+            DSP</div>
+        <div class="fragment"
+            style="position: absolute; top: 20%; left: 50%; width: 15%; height: 25%; background: #10b981; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-weight: 700;">
+            GPU</div>
+        <div class="fragment"
+            style="position: absolute; top: 20%; left: 70%; width: 15%; height: 25%; background: #f59e0b; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-weight: 700; color: #000;">
+            DMA</div>
+
+        <!-- Connecting Lines Top -->
+        <div
+            style="position: absolute; top: 45%; left: 17.5%; width: 2px; height: 5%; background: var(--text-primary);">
+        </div>
+        <div
+            style="position: absolute; top: 45%; left: 37.5%; width: 2px; height: 5%; background: var(--text-primary);">
+        </div>
+        <div
+            style="position: absolute; top: 45%; left: 57.5%; width: 2px; height: 5%; background: var(--text-primary);">
+        </div>
+        <div
+            style="position: absolute; top: 45%; left: 77.5%; width: 2px; height: 5%; background: var(--text-primary);">
+        </div>
+
+        <!-- SLAVES -->
+        <div class="fragment"
+            style="position: absolute; bottom: 20%; left: 10%; width: 15%; height: 20%; background: #334155; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-weight: 700;">
+            SRAM</div>
+        <div class="fragment"
+            style="position: absolute; bottom: 20%; left: 30%; width: 15%; height: 20%; background: #334155; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-weight: 700;">
+            Memory Ctrl</div>
+        <div class="fragment"
+            style="position: absolute; bottom: 20%; left: 50%; width: 15%; height: 20%; background: #334155; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-weight: 700;">
+            USB / UART</div>
+        <div class="fragment"
+            style="position: absolute; bottom: 20%; left: 70%; width: 15%; height: 20%; background: #334155; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-weight: 700;">
+            GPIO / Timer</div>
+
+        <!-- Connecting Lines Bottom -->
+        <div
+            style="position: absolute; bottom: 40%; left: 17.5%; width: 2px; height: 10%; background: var(--text-primary);">
+        </div>
+        <div
+            style="position: absolute; bottom: 40%; left: 37.5%; width: 2px; height: 10%; background: var(--text-primary);">
+        </div>
+        <div
+            style="position: absolute; bottom: 40%; left: 57.5%; width: 2px; height: 10%; background: var(--text-primary);">
+        </div>
+        <div
+            style="position: absolute; bottom: 40%; left: 77.5%; width: 2px; height: 10%; background: var(--text-primary);">
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 6: LEGACY INTERCONNECT -->
+<div class="slide-container">
+    <h2 class="slide-title">Slide 6: Kết nối truyền thống <span>Bus-based</span></h2>
+    <div class="grid-2">
+        <div class="tile fragment">
+            <h3>AMBA Bus (ARM)</h3>
+            <p>Kiến trúc phổ biến nhất: <b>Advanced Microcontroller Bus Architecture</b>.</p>
+            <ul class="mt-4">
+                <li class="mb-2"><b>AHB (Advanced High-performance Bus):</b> Bus hệ thống hiệu năng cao cho CPU, Memory.
+                </li>
+                <li class="mb-2"><b>APB (Advanced Peripheral Bus):</b> Bus tốc độ thấp, tiết kiệm năng lượng cho ngoại
+                    vi (UART, Timer).</li>
+                <li class="mb-2"><b>AXI (Advanced eXtensible Interface):</b> Giao thức Point-to-Point, hỗ trợ tách biệt
+                    Address/Data channels, Out-of-order transaction.</li>
+            </ul>
+        </div>
+        <div class="tile fragment">
+            <h3>Nhược điểm của Bus</h3>
+            <div class="mt-4 p-4 text-center"
+                style="background: rgba(239, 68, 68, 0.1); border: 1px solid #ef4444; border-radius: 8px;">
+                <h4 style="color: #ef4444; margin: 0;">Bus Contention (Tranh chấp Bus)</h4>
+                <p style="font-size: 0.9rem;">Chỉ 1 Master được truyền tại một thời điểm.</p>
+            </div>
+            <div class="mt-4 p-4 text-center"
+                style="background: rgba(239, 68, 68, 0.1); border: 1px solid #ef4444; border-radius: 8px;">
+                <h4 style="color: #ef4444; margin: 0;">Scalability (Khả năng mở rộng)</h4>
+                <p style="font-size: 0.9rem;">Hiệu năng giảm mạnh khi số lượng core > 8.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 7: CHALLENGES -->
+<div class="slide-container">
+    <h2 class="slide-title">Slide 7: Thách thức thiết kế SoC</h2>
+    <div class="grid-2">
+        <div class="tile fragment">
+            <h3><i class="fa-solid fa-list-check text-accent"></i> Verification (Kiểm thử)</h3>
+            <p class="mt-2">Chiếm <b>70%</b> chu kỳ thiết kế.</p>
+            <p>Độ phức tạp tăng theo hàm mũ. Không thể mô phỏng (simulation) toàn bộ hệ thống bằng RTL trong thời gian
+                thực.</p>
+            <p class="mt-2"><i class="fa-solid fa-arrow-right"></i> Cần FPGA Prototyping hoặc Emulation.</p>
+        </div>
+        <div class="tile fragment">
+            <h3><i class="fa-solid fa-layer-group text-accent"></i> Platform-based Design</h3>
+            <p class="mt-2">Không thể thiết kế từ đầu (Scratch).</p>
+            <p>Phải tái sử dụng các <b>IP Cores</b> (Intellectual Property) đã được kiểm chứng (Third-party IPs).</p>
+            <p class="mt-2"><i class="fa-solid fa-arrow-right"></i> Vấn đề tích hợp Plug-and-Play.</p>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 8: CO-DESIGN FLOW -->
+<div class="slide-container">
+    <h2 class="slide-title">Slide 8: Quy trình <span>Hardware/Software Co-design</span></h2>
+    <div class="grid-2">
+        <div class="tile fragment" style="display: flex; flex-direction: column; justify-content: center;">
+            <p style="font-size: 1.1rem;">Quy trình truyền thống (Waterfall) thiết kế HW xong mới viết SW là <b>quá
+                    chậm</b>.</p>
+            <p class="mt-4">Co-design cho phép phát triển song song thông qua mô hình hóa mức cao (SystemC/TLM).</p>
+        </div>
+        <div class="tile fragment text-center">
+            <div style="background: var(--bg-primary); padding: 10px; border: 1px dashed white; border-radius: 8px;">
+                System Spec</div>
+            <div style="font-size: 1.5rem;"><i class="fa-solid fa-arrow-down"></i></div>
+
+            <div class="grid-2" style="gap: 10px;">
+                <div style="background: var(--accent-blue); padding: 10px; border-radius: 8px; color: white;">Hardware
+                    Design<br>(Verilog/VHDL)</div>
+                <div style="background: var(--accent-violet); padding: 10px; border-radius: 8px; color: white;">Software
+                    Design<br>(C/C++/Assembly)</div>
+            </div>
+
+            <div style="font-size: 1.5rem;"><i class="fa-solid fa-arrow-down"></i></div>
+            <div style="background: #10b981; padding: 10px; color: white; border-radius: 8px;">Co-Verification (Virtual
+                Platform)</div>
+
+            <div style="font-size: 1.5rem;"><i class="fa-solid fa-arrow-down"></i></div>
+            <div
+                style="background: var(--text-primary); color: black; padding: 10px; border-radius: 8px; font-weight: 700;">
+                Prototype Implementation</div>
+        </div>
+    </div>
+</div>

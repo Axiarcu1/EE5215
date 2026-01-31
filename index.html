@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Processor Design: RISC-V Architecture</title>
+    <link rel="icon" href="assets/hcmut_logo.png" type="image/png">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@100;200;300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <!-- Background Decor -->
+    <div class="bg-glow"></div>
+    <div class="bg-grid"></div>
+
+    <!-- Navigation Arrows -->
+    <button id="prev-arrow" class="nav-arrow" aria-label="Previous Slide">
+        <i class="fa-solid fa-chevron-left"></i>
+    </button>
+    <button id="next-arrow" class="nav-arrow" aria-label="Next Slide">
+        <i class="fa-solid fa-chevron-right"></i>
+    </button>
+
+    <!-- Slide Counter -->
+    <div id="slide-counter">1 / 1</div>
+
+    <!-- Control Buttons -->
+    <div id="presentation-controls">
+        <button class="control-btn" id="btn-fullscreen" title="Fullscreen (F)">
+            <i class="fa-solid fa-expand"></i>
+        </button>
+        <button class="control-btn" id="btn-present" title="Presentation Mode (P)">
+            <i class="fa-solid fa-play"></i>
+        </button>
+    </div>
+
+    <!-- Slides Container -->
+    <div id="slides-container">
+        <!-- Slides will be loaded here dynamically -->
+    </div>
+
+    <!-- Loading Indicator -->
+    <div id="loader" class="loader">
+        <div class="spinner"></div>
+    </div>
+
+    <script src="js/main.js"></script>
+</body>
+
+</html>

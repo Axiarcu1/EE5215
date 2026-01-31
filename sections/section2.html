@@ -1,0 +1,289 @@
+<!-- SLIDE 9: MPSoC DEFINITION -->
+<div class="slide-container">
+    <h2 class="slide-title">Slide 9: Multiprocessor SoC <span>(MPSoC)</span></h2>
+    <div class="grid-2">
+        <div class="tile fragment">
+            <h3>Định nghĩa</h3>
+            <p class="mb-4">Theo <b>Jerraya & Wolf</b>:</p>
+            <blockquote
+                style="font-style: italic; border-left: 4px solid var(--accent-violet); padding-left: 1rem; margin-bottom: 1rem;">
+                "MPSoC là một hệ thống tích hợp trên chip chứa nhiều đơn vị xử lý có thể lập trình được (programmable
+                processors), thường là không đồng nhất, hỗ trợ các ứng dụng phức tạp."
+            </blockquote>
+            <p>Khác với Multicore đa dụng, MPSoC được thiết kế hướng ứng dụng (Application-specific).</p>
+        </div>
+        <div class="tile fragment flex-center">
+            <div style="position: relative; width: 300px; height: 300px;">
+                <div
+                    style="position: absolute; top:0; left:0; width:140px; height:140px; background:var(--accent-blue); border-radius:10px; display:flex; align-items:center; justify-content:center; color:white; font-weight:bold;">
+                    CPU Cluster</div>
+                <div
+                    style="position: absolute; top:0; right:0; width:140px; height:140px; background:var(--accent-violet); border-radius:10px; display:flex; align-items:center; justify-content:center; color:white; font-weight:bold;">
+                    DSP Cluster</div>
+                <div
+                    style="position: absolute; bottom:0; left:0; width:140px; height:140px; background:#10b981; border-radius:10px; display:flex; align-items:center; justify-content:center; color:white; font-weight:bold;">
+                    Hardware<br>Accelerators</div>
+                <div
+                    style="position: absolute; bottom:0; right:0; width:140px; height:140px; background:#f59e0b; border-radius:10px; display:flex; align-items:center; justify-content:center; color:white; font-weight:bold;">
+                    I/O Subsys</div>
+                <div style="position: absolute; top: 145px; left: 0; width: 300px; height: 10px; background: white;">
+                </div>
+                <div style="position: absolute; left: 145px; top: 0; width: 10px; height: 300px; background: white;">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 10: HETEROGENEITY -->
+<div class="slide-container">
+    <h2 class="slide-title">Slide 10: Heterogeneity <span>(Tính dị bản)</span></h2>
+    <div class="tile fragment mb-4">
+        <p>Tại sao không dùng một loại CPU mạnh cho tất cả tác vụ?</p>
+        <p><i class="fa-solid fa-arrow-right text-accent"></i> <b>Hiệu quả năng lượng (Energy Efficiency)</b>.</p>
+    </div>
+    <div class="grid-3">
+        <div class="tile fragment">
+            <h4><i class="fa-solid fa-microchip text-accent"></i> RISC CPU</h4>
+            <p style="font-size: 0.9rem;">(ARM Cortex-A, RISC-V)</p>
+            <p>Dùng cho OS, Control flow, ứng dụng tổng quát.</p>
+            <p class="text-accent">Linh hoạt cao, Hiệu năng trung bình.</p>
+        </div>
+        <div class="tile fragment">
+            <h4><i class="fa-solid fa-wave-square text-accent"></i> DSP</h4>
+            <p style="font-size: 0.9rem;">(Hexagon, Tensilica)</p>
+            <p>Dùng cho xử lý tín hiệu (Audio, Baseband).</p>
+            <p class="text-accent">Mạnh về tính toán số học (MAC).</p>
+        </div>
+        <div class="tile fragment">
+            <h4><i class="fa-solid fa-bolt text-accent"></i> ASIC / FPGA</h4>
+            <p style="font-size: 0.9rem;">(Hardwired Logic)</p>
+            <p>Dùng cho tác vụ cố định (Video Encoding, AI).</p>
+            <p class="text-accent">Hiệu năng tối đa, Linh hoạt thấp nhất.</p>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 11: CLASSIFICATION -->
+<div class="slide-container">
+    <h2 class="slide-title">Slide 11: Phân loại kiến trúc MPSoC</h2>
+    <div class="grid-2">
+        <div class="tile fragment">
+            <h3>Loosely Coupled (Lỏng lẻo)</h3>
+            <p class="mt-2">Các bộ xử lý hoạt động tương đối độc lập (ví dụ: qua mạng LAN on-chip hoặc Message Passing).
+            </p>
+            <ul class="mt-2">
+                <li>Bộ nhớ phân tán (Distributed Memory).</li>
+                <li>Mỗi node chạy OS hoặc firmware riêng.</li>
+                <li>Khả năng mở rộng (Scalability) cao.</li>
+            </ul>
+        </div>
+        <div class="tile fragment" style="border-color: var(--accent-blue);">
+            <h3>Tightly Coupled (Chặt chẽ)</h3>
+            <p class="mt-2">Chia sẻ chung tài nguyên toàn cục (thường là Main Memory).</p>
+            <ul class="mt-2">
+                <li>Bộ nhớ chia sẻ (Shared Memory).</li>
+                <li>Giao tiếp tốc độ cao, độ trễ thấp.</li>
+                <li>Phức tạp trong việc đồng bộ hóa dữ liệu.</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 12: IPC -->
+<div class="slide-container">
+    <h2 class="slide-title">Slide 12: Inter-processor Communication <span>(IPC)</span></h2>
+    <p class="text-center mb-4 fragment">Làm sao Core A gửi dữ liệu cho Core B?</p>
+
+    <div class="grid-2">
+        <div class="tile fragment">
+            <h4>1. Interrupt (Ngắt)</h4>
+            <p>Cơ chế báo hiệu đơn giản nhất. Core A kích hoạt ngắt lên Core B.</p>
+        </div>
+        <div class="tile fragment">
+            <h4>2. Shared Memory + Polling</h4>
+            <p>Core A ghi vào vùng nhớ chung. Core B liên tục kiểm tra (Poll) cờ hiệu.</p>
+        </div>
+        <div class="tile fragment">
+            <h4>3. FIFO / Mailboxes</h4>
+            <p>Hàng đợi phần cứng (Hardware Queue). Giảm tải cho CPU (không cần Polling liên tục).</p>
+        </div>
+        <div class="tile fragment">
+            <h4>4. Semaphores / Mutex</h4>
+            <p>Cơ chế phần cứng (Atomic instructions: Test-and-Set) để bảo vệ vùng nhớ găng (Critical Section).</p>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 13: MEMORY HIERARCHY -->
+<div class="slide-container">
+    <h2 class="slide-title">Slide 13: Phân cấp bộ nhớ</h2>
+    <div class="tile fragment">
+        <table style="width: 100%; text-align: left;">
+            <thead>
+                <tr>
+                    <th style="padding: 10px; border-bottom: 2px solid white;">Mô hình</th>
+                    <th style="padding: 10px; border-bottom: 2px solid white;">Shared Memory (SMP)</th>
+                    <th style="padding: 10px; border-bottom: 2px solid white;">Distributed Memory (MPP)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="padding: 15px; font-weight: bold;">Kiến trúc</td>
+                    <td style="padding: 15px;">Tất cả cores truy cập chung một không gian địa chỉ vật lý.</td>
+                    <td style="padding: 15px;">Mỗi core có bộ nhớ riêng. Giao tiếp qua gửi tin nhắn (Message Passing).
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding: 15px; font-weight: bold;">Lập trình</td>
+                    <td style="padding: 15px;">Dễ hơn (Biến toàn cục). Chuẩn OpenMP, Pthreads.</td>
+                    <td style="padding: 15px;">Khó hơn. Phải quản lý việc gửi/nhận dữ liệu. Chuẩn MPI.</td>
+                </tr>
+                <tr>
+                    <td style="padding: 15px; font-weight: bold;">Ưu điểm</td>
+                    <td style="padding: 15px;">Hiệu quả cho trao đổi dữ liệu nhỏ, nhanh.</td>
+                    <td style="padding: 15px;">Mở rộng tốt (Scalable), không nghẽn băng thông bộ nhớ.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- SLIDE 14: CACHE COHERENCE -->
+<div class="slide-container">
+    <h2 class="slide-title">Slide 14: Nhất quán bộ nhớ đệm <span>(Cache Coherence)</span></h2>
+    <div class="grid-2">
+        <div class="tile fragment">
+            <h3>Vấn đề</h3>
+            <p>Core A và Core B cùng load biến X. Core A sửa X = 5. Core B vẫn giữ giá trị cũ (Stale data) trong Cache
+                L1 của nó.</p>
+            <p class="mt-4 text-accent"><b>Hệ thống mất tính nhất quán!</b></p>
+        </div>
+        <div class="tile fragment">
+            <h3>Giao thức Snoop (Snooping Protocol)</h3>
+            <p>Các bộ Cache "nghe lén" (snoop) trên Bus để phát hiện thay đổi.</p>
+            <ul class="mt-2">
+                <li><b>MSI Protocol:</b> Modified, Shared, Invalid.</li>
+                <li><b>MESI Protocol:</b> Thêm trạng thái <b>Exclusive</b> (Độc quyền) để giảm băng thông bus khi chỉ có
+                    1 core dùng dữ liệu.</li>
+            </ul>
+        </div>
+    </div>
+    <div class="mt-4 tile fragment text-center">
+        <p>Với MPSoC lớn (hàng trăm core), Snooping gây nghẽn Bus <i class="fa-solid fa-arrow-right"></i> Chuyển sang
+            <b>Directory-based Coherence</b>.</p>
+    </div>
+</div>
+
+<!-- SLIDE 15: SOFTWARE STACK -->
+<div class="slide-container">
+    <h2 class="slide-title">Slide 15: Lớp phần mềm MPSoC</h2>
+    <div class="flex-center flex-col" style="gap: 10px;">
+        <div class="fragment"
+            style="width: 600px; padding: 15px; background: #d946ef; color: white; text-align: center; border-radius: 8px;">
+            <b>Applications</b> (Video Streaming, AI Inference)
+        </div>
+        <div class="fragment"
+            style="width: 600px; padding: 15px; background: #a855f7; color: white; text-align: center; border-radius: 8px;">
+            <b>Middleware</b> (CORBA, OpenMAX, Android Binder)
+            <br><span style="font-size: 0.8rem;">Trừu tượng hóa phần cứng, quản lý giao tiếp IPC.</span>
+        </div>
+        <div class="fragment grid-2" style="width: 600px; gap: 10px;">
+            <div
+                style="padding: 15px; background: var(--accent-blue); color: white; text-align: center; border-radius: 8px;">
+                <b>SMP Linux</b><br>(Chạy trên CPU Cluster)
+            </div>
+            <div style="padding: 15px; background: #64748b; color: white; text-align: center; border-radius: 8px;">
+                <b>RTOS / Firmware</b><br>(Chạy trên DSP/MCU)
+            </div>
+        </div>
+        <div class="fragment"
+            style="width: 600px; padding: 15px; background: #334155; color: white; text-align: center; border-radius: 8px;">
+            <b>Hardware Abstraction Layer (HAL) & Drivers</b>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 16: PARALLEL PROGRAMMING -->
+<div class="slide-container">
+    <h2 class="slide-title">Slide 16: Bài toán lập trình song song</h2>
+    <div class="grid-2">
+        <div class="tile fragment">
+            <h3>Task Partitioning (Phân hoạch tác vụ)</h3>
+            <p>Làm sao chia một ứng dụng lớn thành các tác vụ (Tasks) nhỏ hơn?</p>
+            <ul class="mt-2">
+                <li><b>Data Parallelism:</b> Cùng một lệnh trên nhiều dữ liệu (SIMD, Image Processing).</li>
+                <li><b>Task Parallelism:</b> Các tác vụ chức năng khác nhau chạy song song (Audio + Video + Networking).
+                </li>
+                <li><b>Pipelining:</b> Chia theo chuỗi xử lý (Stage 1 -> Stage 2 -> Stage 3).</li>
+            </ul>
+        </div>
+        <div class="tile fragment flex-center">
+            <div class="text-center">
+                <div style="background: white; color: black; padding: 10px; border-radius: 5px; display: inline-block;">
+                    Input Video</div>
+                <div style="font-size: 1.5rem;"><i class="fa-solid fa-arrow-down"></i></div>
+                <div class="grid-2" style="gap: 20px;">
+                    <div style="border: 1px dashed white; padding: 10px;">Decode (Core 1)</div>
+                    <div style="border: 1px dashed white; padding: 10px;">Audio (Core 2)</div>
+                </div>
+                <div style="font-size: 1.5rem;"><i class="fa-solid fa-arrow-down"></i></div>
+                <div style="background: white; color: black; padding: 10px; border-radius: 5px; display: inline-block;">
+                    Output</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 17: SCHEDULING & MAPPING -->
+<div class="slide-container">
+    <h2 class="slide-title">Slide 17: Scheduling & Mapping</h2>
+    <div class="grid-2">
+        <div class="tile fragment">
+            <h3>Mapping (Ánh xạ)</h3>
+            <p>Quyết định Task nào chạy trên Processor nào (Static lúc biên dịch hoặc Dynamic lúc chạy).</p>
+            <p class="text-accent mt-2"><i class="fa-solid fa-triangle-exclamation"></i> NP-Hard Problem.</p>
+        </div>
+        <div class="tile fragment">
+            <h3>Scheduling (Điều phối)</h3>
+            <p>Quyết định thứ tự thực thi của các Task trên một Processor theo thời gian.</p>
+            <ul>
+                <li>Preemptive (Có chiếm quyền).</li>
+                <li>Non-preemptive.</li>
+                <li>Real-time Scheduling (RMS, EDF).</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 18: CASE STUDY -->
+<div class="slide-container">
+    <h2 class="slide-title">Slide 18: Case Study <span>Smartphone SoC</span></h2>
+    <div
+        style="background: rgba(0,0,0,0.3); border: 2px solid var(--glass-border); border-radius: 20px; padding: 2rem;">
+        <h3 class="text-center mb-4">Qualcomm Snapdragon / Apple Silicon</h3>
+        <div class="grid-2">
+            <div>
+                <ul class="fa-ul">
+                    <li class="fragment mb-3"><span class="fa-li"><i
+                                class="fa-solid fa-check text-accent"></i></span><b>Application Processor:</b> Lõi ARM
+                        chạy Android/iOS. Xử lý UI, App logic.</li>
+                    <li class="fragment mb-3"><span class="fa-li"><i
+                                class="fa-solid fa-check text-accent"></i></span><b>Modem (DSP):</b> Xử lý tín hiệu
+                        4G/5G, Wifi thời gian thực.</li>
+                    <li class="fragment mb-3"><span class="fa-li"><i
+                                class="fa-solid fa-check text-accent"></i></span><b>ISP (Image Signal Processor):</b> Xử
+                        lý dữ liệu thô từ Camera (Demosaicing, HDR).</li>
+                    <li class="fragment mb-3"><span class="fa-li"><i
+                                class="fa-solid fa-check text-accent"></i></span><b>NPU (Neural Engine):</b> Chạy
+                        FaceID, nhận diện vật thể.</li>
+                </ul>
+            </div>
+            <div class="fragment flex-center text-center p-4"
+                style="background: rgba(255,255,255,0.05); border-radius: 12px;">
+                <p>Một ví dụ điển hình của <b>Heterogeneous MPSoC</b> hoạt động chặt chẽ để tối ưu hóa trải nghiệm người
+                    dùng.</p>
+            </div>
+        </div>
+    </div>
+</div>

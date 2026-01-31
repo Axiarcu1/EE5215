@@ -1,0 +1,270 @@
+<!-- SLIDE 19: NEXT GEN MULTICORE -->
+<div class="slide-container">
+    <h2 class="slide-title">Slide 19: Advanced Multicore SoC <span>(Ben Abdallah)</span></h2>
+    <div class="grid-2">
+        <div class="tile fragment">
+            <h3>Kỷ nguyên Many-core</h3>
+            <p>Khi số lượng lõi tăng từ vài chục lên hàng trăm (100+ cores).</p>
+            <p>Vấn đề không còn nằm ở tốc độ tính toán của từng lõi, mà nằm ở <b>khả năng giao tiếp (Communication)</b>.
+            </p>
+        </div>
+        <div class="tile fragment text-center">
+            <div style="font-size: 3rem; font-weight: 800; color: var(--accent-blue);">Computation</div>
+            <div style="font-size: 2rem;"><i class="fa-solid fa-chevron-down"></i></div>
+            <div style="font-size: 3rem; font-weight: 800; color: var(--accent-violet);">Communication</div>
+            <p class="mt-2">"The Interconnect is the bottleneck"</p>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 20: BUS COLLAPSE -->
+<div class="slide-container">
+    <h2 class="slide-title">Slide 20: Sự sụp đổ của Bus</h2>
+    <div class="grid-2">
+        <div class="tile fragment">
+            <p>Khi N (số lõi) tăng, băng thông Bus chia sẻ bị chia nhỏ.</p>
+            <p class="mt-4"><b style="color: #ef4444;">Vấn đề:</b></p>
+            <ul>
+                <li>Độ trễ (Latency) không xác định.</li>
+                <li>Công suất tiêu thụ cao do điện dung dây dẫn lớn (long wires).</li>
+                <li>Không thể định tuyến song song.</li>
+            </ul>
+        </div>
+        <div class="tile fragment flex-center">
+            <div style="position: relative; width: 300px; height: 150px;">
+                <div
+                    style="position: absolute; bottom: 0; width: 100%; height: 20px; background: #ef4444; border-radius: 10px;">
+                </div>
+                <div style="position: absolute; bottom: 20px; left: 10px; width: 2px; height: 50px; background: white;">
+                </div>
+                <div style="position: absolute; bottom: 20px; left: 50px; width: 2px; height: 50px; background: white;">
+                </div>
+                <div style="position: absolute; bottom: 20px; left: 90px; width: 2px; height: 50px; background: white;">
+                </div>
+                <div
+                    style="position: absolute; bottom: 20px; left: 130px; width: 2px; height: 50px; background: white;">
+                </div>
+                <div
+                    style="position: absolute; top: 0; width: 100%; text-align: center; color: #ef4444; font-weight: bold;">
+                    CONTENTION!</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 21: NOC SOLUTION -->
+<div class="slide-container">
+    <h2 class="slide-title">Slide 21: Network-on-Chip <span>(NoC)</span></h2>
+    <div class="tile fragment text-center">
+        <p style="font-size: 1.5rem;">"Mang mạng Internet vào trong một con chip"</p>
+    </div>
+    <div class="grid-2 mt-4">
+        <div class="tile fragment">
+            <h3>Ý tưởng</h3>
+            <p>Thay thế dây dẫn toàn cục (Global Wires) bằng các liên kết điểm-điểm (Point-to-Point Links) và các thiết
+                bị chuyển mạch (Switches/Routers).</p>
+        </div>
+        <div class="tile fragment">
+            <h3>Lợi ích</h3>
+            <ul>
+                <li><b>Scalability:</b> Dễ dàng thêm node mới.</li>
+                <li><b>Parallelism:</b> Nhiều gói tin (packet) di chuyển cùng lúc.</li>
+                <li><b>Predictability:</b> Hiệu năng dự đoán được.</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 22: NOC STRUCTURE -->
+<div class="slide-container">
+    <h2 class="slide-title">Slide 22: Cấu trúc chi tiết NoC</h2>
+    <div class="grid-3">
+        <div class="tile fragment">
+            <div class="text-center mb-2"><i class="fa-solid fa-network-wired text-accent" style="font-size: 2rem;"></i>
+            </div>
+            <h4>Router (Switch)</h4>
+            <p style="font-size: 0.9rem;">Thực hiện chức năng định tuyến, điều phối luồng (Buffer, Arbiter, Crossbar).
+            </p>
+        </div>
+        <div class="tile fragment">
+            <div class="text-center mb-2"><i class="fa-solid fa-plug text-accent" style="font-size: 2rem;"></i></div>
+            <h4>Network Interface (NI)</h4>
+            <p style="font-size: 0.9rem;">Cầu nối giữa IP Core (CPU) và mạng NoC. Đóng gói dữ liệu thành Packet/Flit.
+            </p>
+        </div>
+        <div class="tile fragment">
+            <div class="text-center mb-2"><i class="fa-solid fa-link text-accent" style="font-size: 2rem;"></i></div>
+            <h4>Link</h4>
+            <p style="font-size: 0.9rem;">Kênh truyền vật lý nối các Router.</p>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 23: TOPOLOGIES -->
+<div class="slide-container">
+    <h2 class="slide-title">Slide 23: Topologies <span>(Cấu trúc mạng)</span></h2>
+    <div class="grid-4">
+        <div class="tile fragment text-center">
+            <i class="fa-solid fa-border-all text-accent mb-2" style="font-size: 2rem;"></i>
+            <h4>2D Mesh</h4>
+            <p style="font-size: 0.8rem;">Phổ biến nhất. Dễ layout trên silicon phẳng.</p>
+        </div>
+        <div class="tile fragment text-center">
+            <i class="fa-solid fa-globe text-accent mb-2" style="font-size: 2rem;"></i>
+            <h4>Torus</h4>
+            <p style="font-size: 0.8rem;">Giống Mesh nhưng nối vòng 2 đầu. Giảm đường kính mạng.</p>
+        </div>
+        <div class="tile fragment text-center">
+            <i class="fa-solid fa-sitemap text-accent mb-2" style="font-size: 2rem;"></i>
+            <h4>Fat Tree</h4>
+            <p style="font-size: 0.8rem;">Băng thông cao ở gần gốc (root). Tốt cho Data Center on Chip.</p>
+        </div>
+        <div class="tile fragment text-center">
+            <i class="fa-solid fa-spider text-accent mb-2" style="font-size: 2rem;"></i>
+            <h4>Spidergon</h4>
+            <p style="font-size: 0.8rem;">Lai giữa Ring và Mesh (STMicroelectronics).</p>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 24: ROUTING -->
+<div class="slide-container">
+    <h2 class="slide-title">Slide 24: Kỹ thuật định tuyến <span>(Routing)</span></h2>
+    <div class="grid-2">
+        <div class="tile fragment">
+            <h3 style="color: var(--accent-blue);">Deterministic (Định định)</h3>
+            <p>Đường đi được xác định trước bởi nguồn và đích.</p>
+            <p><b>Vd: XY Routing.</b> Đi hết trục X rồi đi trục Y.</p>
+            <p><i class="fa-solid fa-plus"></i> Đơn giản, không Deadlock.</p>
+            <p><i class="fa-solid fa-minus"></i> Dễ nghẽn nếu đường đi bị quá tải.</p>
+        </div>
+        <div class="tile fragment">
+            <h3 style="color: var(--accent-violet);">Adaptive (Thích nghi)</h3>
+            <p>Đường đi thay đổi dựa trên tình trạng mạng (kẹt xe, hỏng hóc).</p>
+            <p><b>Vd: West-First, Odd-Even.</b></p>
+            <p><i class="fa-solid fa-plus"></i> Cân bằng tải tốt, chịu lỗi tốt.</p>
+            <p><i class="fa-solid fa-minus"></i> Phức tạp, nguy cơ Deadlock/Livelock.</p>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 25: FLOW CONTROL & QOS -->
+<div class="slide-container">
+    <h2 class="slide-title">Slide 25: Flow Control & QoS</h2>
+    <div class="tile fragment mb-4">
+        <p><b>Flow Control:</b> Làm sao để Router gửi không làm tràn bộ nhớ đệm (Buffer) của Router nhận.</p>
+        <ul class="mt-2" style="display: flex; gap: 2rem;">
+            <li>Store-and-Forward</li>
+            <li>Wormhole (Chia nhỏ thành Flits - Flow Control Units)</li>
+            <li>Virtual Channels (Kênh ảo)</li>
+        </ul>
+    </div>
+    <div class="tile fragment" style="border-top: 4px solid #f59e0b;">
+        <h3>QoS (Quality of Service)</h3>
+        <p>Không phải gói tin nào cũng bình đẳng.</p>
+        <ul class="mt-2">
+            <li><b>Best Effort (BE):</b> File transfer (không cần gấp).</li>
+            <li><b>Guaranteed Service (GS):</b> Video/Audio thời gian thực (Cần băng thông và độ trễ đảm bảo).</li>
+        </ul>
+    </div>
+</div>
+
+<!-- SLIDE 26: POWER GATING -->
+<div class="slide-container">
+    <h2 class="slide-title">Slide 26: Quản lý năng lượng nâng cao</h2>
+    <div class="grid-2">
+        <div class="tile fragment">
+            <h3>Clock Gating</h3>
+            <p>Ngắt xung nhịp (Clock) cấp cho các thanh ghi (Flip-flops) khi không hoạt động.</p>
+            <p class="text-accent">Giảm năng lượng động (Dynamic Power).</p>
+        </div>
+        <div class="tile fragment" style="border-color: var(--accent-violet);">
+            <h3>Power Gating</h3>
+            <p>Cắt hoàn toàn nguồn điện (Vdd) cấp cho một khối logic (sử dụng Header/Footer Transistors).</p>
+            <p class="text-accent">Giảm dòng rò (Leakage Power) - Vấn đề lớn ở tiến trình < 10nm.</p>
+        </div>
+    </div>
+    <p class="text-center mt-4 fragment opacity-75">Thách thức: Chi phí năng lượng để bật/tắt (Wake-up latency).</p>
+</div>
+
+<!-- SLIDE 27: DVFS -->
+<div class="slide-container">
+    <h2 class="slide-title">Slide 27: DVFS <span>Dynamic Voltage & Frequency Scaling</span></h2>
+    <div class="tile fragment text-center">
+        <p style="font-size: 1.5rem; font-family: var(--font-code);">Power ~ V<sup>2</sup> * f</p>
+        <p class="mt-2">Giảm điện áp (V) và tần số (f) khi tải nhẹ để tiết kiệm năng lượng theo hàm mũ.</p>
+    </div>
+    <div class="grid-2 mt-4">
+        <div class="tile fragment">
+            <h4>Global DVFS</h4>
+            <p>Toàn bộ chip chạy cùng V, f. Đơn giản nhưng kém hiệu quả.</p>
+        </div>
+        <div class="tile fragment">
+            <h4>Per-Core DVFS</h4>
+            <p>Mỗi core (hoặc cụm core) có V, f riêng (Voltage Islands). Phức tạp bộ điều chỉnh điện áp (VRM) nhưng tối
+                ưu nhất.</p>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 28: THERMAL MANAGEMENT -->
+<div class="slide-container">
+    <h2 class="slide-title">Slide 28: Quản lý nhiệt <span>(Thermal Management)</span></h2>
+    <div class="grid-2">
+        <div class="tile fragment">
+            <h3 style="color: #ef4444;"><i class="fa-solid fa-temperature-full"></i> Hotspots</h3>
+            <p>Mật độ công suất (Power Density) không đồng đều tạo ra các điểm nóng cục bộ <i
+                    class="fa-solid fa-arrow-right"></i> Gây hỏng chip, giảm tuổi thọ.</p>
+        </div>
+        <div class="tile fragment">
+            <h3>DTM Solutions</h3>
+            <p>Dynamic Thermal Management:</p>
+            <ul class="mt-2">
+                <li><b>Migration:</b> Di chuyển task từ core nóng sang core lạnh.</li>
+                <li><b>Throttling:</b> Hạ xung (DVFS) core đang nóng.</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 29: FAULT TOLERANCE -->
+<div class="slide-container">
+    <h2 class="slide-title">Slide 29: Khả năng chịu lỗi <span>(Fault Tolerance)</span></h2>
+    <p class="mb-4">Hệ thống càng lớn, xác suất có linh kiện hỏng càng cao.</p>
+    <div class="grid-3">
+        <div class="tile fragment">
+            <h4>Redundancy (Dư thừa)</h4>
+            <p>N-Modular Redundancy. Chạy cùng task trên 3 core rồi vote kết quả (Triple Modular Redundancy - TMR).</p>
+        </div>
+        <div class="tile fragment">
+            <h4>Reconfiguration</h4>
+            <p>Khi phát hiện core/link hỏng, NoC định tuyến lại (Fault-tolerant Routing) để tránh vùng hỏng.</p>
+        </div>
+        <div class="tile fragment">
+            <h4>ECC (Error Correction Code)</h4>
+            <p>Sửa lỗi bit trong bộ nhớ và gói tin NoC.</p>
+        </div>
+    </div>
+</div>
+
+<!-- SLIDE 30: 3D-NOC -->
+<div class="slide-container">
+    <h2 class="slide-title">Slide 30: Kiến trúc 3D-NoC</h2>
+    <div class="grid-2">
+        <div class="tile fragment">
+            <h3>TSV (Through-Silicon Via)</h3>
+            <p>Trụ đồng dẫn điện xuyên thẳng qua đế Silicon.</p>
+            <p>Kết nối các lớp (Layers) theo chiều dọc ngắn hơn nhiều so với dây dẫn 2D.</p>
+        </div>
+        <div class="tile fragment">
+            <h3>Cấu trúc 3D</h3>
+            <ul class="mt-2">
+                <li>Layer 1: CPU Cores</li>
+                <li>Layer 2: L2/L3 Cache</li>
+                <li>Layer 3: Main Memory (DRAM)</li>
+            </ul>
+            <p class="mt-2 text-accent">Giảm độ trễ bộ nhớ, tăng băng thông khủng khiếp (High Bandwidth Memory - HBM).
+            </p>
+        </div>
+    </div>
+</div>
